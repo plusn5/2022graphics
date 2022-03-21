@@ -196,3 +196,97 @@ int main(int argc, char **argv)
 }
 
 ```
+
+##week05
+```c
+#include <GL/glut.h>
+void display()
+{
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+    glPushMatrix();
+        glRotatef(180, 0 , 0 , 1);
+        glColor3f(1 ,1 ,0 );
+        glutSolidTeapot(0.3);
+    glPopMatrix();
+    glutSwapBuffers();
+}
+int main(int argc, char *argv[])
+{
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+    glutCreateWindow("GLUT Shapes");
+
+    glutDisplayFunc(display);
+    glutMainLoop();
+
+}
+
+```
+```c
+#include <GL/glut.h>
+float angle=0;
+void display()
+{
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+    glPushMatrix();    ///備份矩陣
+        glRotatef(angle, 0 , 0 , 1);  ///角度可改變
+        glColor3f(1 ,1 ,0 );
+        glutSolidTeapot(0.3);
+    glPopMatrix();
+    glutSwapBuffers(); ///還原矩陣
+}
+void motion(int x ,int y)
+{
+    angle= x;
+    display();
+}
+int main(int argc, char *argv[])
+{
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+    glutCreateWindow("GLUT Shapes");
+
+    glutDisplayFunc(display);
+    glutMotionFunc(motion);
+    glutMainLoop();
+
+}
+
+```
+```c
+#include <GL/glut.h>
+float angle=0;
+float oldx=0;
+void display()
+{
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+    glPushMatrix();    ///備份矩陣
+        glRotatef(angle, 0 , 0 , 1);  ///角度可改變
+        glColor3f(1 ,1 ,0 );
+        glutSolidTeapot(0.3);
+    glPopMatrix();
+    glutSwapBuffers(); ///還原矩陣
+}
+void mouse(int button, int state, int x, int y) ///滑鼠動作(按下,放開)
+{
+    oldx = x;
+}
+void motion(int x ,int y)   ///拖移不會改變位置
+{
+    angle+= (x-oldx);
+    oldx = x;
+    display();
+}
+int main(int argc, char *argv[])
+{
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+    glutCreateWindow("GLUT Shapes");
+
+    glutDisplayFunc(display);
+    glutMouseFunc(mouse);
+    glutMotionFunc(motion);
+    glutMainLoop();
+
+}
+```
